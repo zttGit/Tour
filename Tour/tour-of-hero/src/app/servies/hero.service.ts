@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Hero } from '../models/hero';
-import { Http } from '@angular/http';
+import {Http,Headers,RequestOptions} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 // import {Observable} from "rxjs/Observable";
  @Injectable()
 export class HeroService {
 
+     getOptions() {
+         let header = new Headers({ 'Content-Type': 'application/json'});
+         return new RequestOptions({ headers: header });
+     }
      private heroesUrl = '/api/index/query';  // URL to web api
 
      constructor(private http: Http) { }
@@ -31,14 +35,31 @@ export class HeroService {
         console.error('An error occurred', error); // for demo purposes only
         return Promise.reject(error.message || error);
     }
-     private headers = new Headers({'Content-Type': 'application/json'});
 
+     //更新数据
      update(hero: Hero): Promise<Hero> {
-         const url = `${this.heroesUrl}/${hero.id}`;
+         const url = `${'/api/index/update'}/${hero.id}`;
+
          return this.http
-             .put(url, JSON.stringify(hero), )
+             .put(url, JSON.stringify(hero), this.getOptions())
              .toPromise()
              .then(() => hero)
+             .catch(this.handleError);
+     }
+     // 新增数据
+     create(name: string): Promise<Hero> {
+         return this.http
+             .post('/api/index/add', JSON.stringify({name: name}), this.getOptions())
+             .toPromise()
+             .then(res => res.json().data as Hero)
+             .catch(this.handleError);
+     }
+
+     delete(id: number): Promise<void> {
+         const url = `${'/api/index/delete'}/${id}`;
+         return this.http.delete(url, this.getOptions())
+             .toPromise()
+             .then(() => null)
              .catch(this.handleError);
      }
 }

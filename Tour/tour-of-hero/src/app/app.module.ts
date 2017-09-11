@@ -10,6 +10,7 @@ import {HttpModule} from '@angular/http';
 
 import { InMemoryDataService } from './in-memory-data.service';
 import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
+import { HeroSearchComponent } from './subcomponents/hero-search/hero-search.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
       HeroesComponent,
       HeroDetailComponent,
       DashboardComponent,
+      HeroSearchComponent,
   ],
   imports: [
     BrowserModule,
