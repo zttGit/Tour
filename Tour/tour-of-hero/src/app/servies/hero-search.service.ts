@@ -6,7 +6,7 @@ import 'rxjs/add/operator/map';
 import {Hero} from "../models/hero";
 
 /**
- * 搜索服务
+ * 搜索服务sdfsdfaf
  */
 @Injectable()
 export class HeroSearchService {
