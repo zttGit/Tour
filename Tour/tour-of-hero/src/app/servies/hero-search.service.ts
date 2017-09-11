@@ -5,7 +5,9 @@ import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import {Hero} from "../models/hero";
 
-
+/**
+ * 搜索服务
+ */
 @Injectable()
 export class HeroSearchService {
 
