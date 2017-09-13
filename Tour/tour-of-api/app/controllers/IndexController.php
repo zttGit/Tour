@@ -6,8 +6,6 @@ class IndexController extends ControllerBase
     {
         $heroes = Hero::find();
         $this->view->setVar("heroes",$heroes);
-//        var_dump(json_encode($heroes->toArray()));
-//        exit;
     }
 //    public function queryAction(){
 //        $this->view->disable();
@@ -69,16 +67,20 @@ class IndexController extends ControllerBase
      * 搜素英雄
      */
     public function searchAction(){
+//        $this->view->disable();    //使视图无效
         $search = $this->request->getQuery("name");
+
         $builder = $this->modelsManager->createBuilder()
             ->columns("h.id,h.name")
             ->addFrom("Hero","h")
             ->orderBy("h.id");
         //搜索功能
         if (!empty($search)) {
-            $builder->andWhere("(b.name like :search:)", array( 'search' => '%'.$search.'%'));
+            $builder->andWhere("(h.name like :search:)", array( 'search' => '%'.$search.'%'));
         }
-        return $this->response->setJsonContent($builder,JSON_UNESCAPED_UNICODE|JSON_NUMERIC_CHECK);
+
+        $res = $builder->getQuery()->execute();
+        return $this->response->setJsonContent($res,JSON_UNESCAPED_UNICODE|JSON_NUMERIC_CHECK);
     }
 
     function router404Action(){
